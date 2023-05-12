@@ -1,17 +1,19 @@
 from colorfield.fields import ColorField
+from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.db.models.signals import post_delete, post_save, pre_save
 from django.dispatch import receiver
 from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
+from django.contrib.sites.models import Site
 
 from .cache import del_cached_active_theme
 
 
 class ThemeQuerySet(models.QuerySet):
     def get_active(self):
-        objs_active_qs = self.filter(active=True)
+        objs_active_qs = self.filter(active=True, site=settings.SITE_ID)
         objs_active_ls = list(objs_active_qs)
         objs_active_count = len(objs_active_ls)
 
@@ -43,6 +45,8 @@ class Theme(models.Model):
         default=True,
         verbose_name=_("active"),
     )
+
+    sites = models.ManyToManyField(Site)
 
     title = models.CharField(
         max_length=50,
