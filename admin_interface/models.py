@@ -13,7 +13,7 @@ from .cache import del_cached_active_theme
 
 class ThemeQuerySet(models.QuerySet):
     def get_active(self):
-        objs_active_qs = self.filter(site=settings.SITE_ID)
+        objs_active_qs = self.filter(active=True, site=settings.SITE_ID)
         objs_active_ls = list(objs_active_qs)
         objs_active_count = len(objs_active_ls)
 
@@ -427,8 +427,6 @@ def post_delete_handler(sender, instance, **kwargs):
 @receiver(post_save, sender=Theme)
 def post_save_handler(sender, instance, **kwargs):
     del_cached_active_theme()
-    if instance.active:
-        Theme.objects.exclude(pk=instance.pk).update(active=False)
     Theme.objects.get_active()
 
 
