@@ -29,7 +29,6 @@ class ThemeQuerySet(models.QuerySet):
 
         elif objs_active_count > 1:
             obj = objs_active_ls[-1]
-            obj.set_active()
 
         return obj
 
