@@ -11,6 +11,7 @@ from django.contrib.sites.models import Site
 
 class ThemeQuerySet(models.QuerySet):
     def get_active(self):
+        print(settings.SITE_ID)
         objs_active_qs = self.filter(active=True, site=settings.SITE_ID)
         objs_active_ls = list(objs_active_qs)
         objs_active_count = len(objs_active_ls)
@@ -410,6 +411,7 @@ class Theme(models.Model):
         app_label = "admin_interface"
         verbose_name = _("Theme")
         verbose_name_plural = _("Themes")
+        unique_together = ('id', 'site',)
 
     def __str__(self):
         return force_str(self.name)

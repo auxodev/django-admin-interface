@@ -9,6 +9,7 @@ class ThemeAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "active",
+        "site",
     )
     list_editable = ("active",)
     list_per_page = 100
@@ -22,6 +23,7 @@ class ThemeAdmin(admin.ModelAdmin):
                 "fields": (
                     "name",
                     "active",
+                    "site",
                 ),
             },
         ),
