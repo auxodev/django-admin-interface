@@ -46,7 +46,7 @@ class Theme(models.Model):
         verbose_name=_("active"),
     )
 
-    sites = models.ManyToManyField(Site)
+    site = models.ForeignKey(Site, null=False, default=1, on_delete=models.PROTECT)
 
     title = models.CharField(
         max_length=50,
