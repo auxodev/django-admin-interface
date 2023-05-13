@@ -8,8 +8,6 @@ from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
 from django.contrib.sites.models import Site
 
-from .cache import del_cached_active_theme
-
 
 class ThemeQuerySet(models.QuerySet):
     def get_active(self):
@@ -415,18 +413,6 @@ class Theme(models.Model):
 
     def __str__(self):
         return force_str(self.name)
-
-
-@receiver(post_delete, sender=Theme)
-def post_delete_handler(sender, instance, **kwargs):
-    del_cached_active_theme()
-    Theme.objects.get_active()
-
-
-@receiver(post_save, sender=Theme)
-def post_save_handler(sender, instance, **kwargs):
-    del_cached_active_theme()
-    Theme.objects.get_active()
 
 
 @receiver(pre_save, sender=Theme)

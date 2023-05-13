@@ -9,7 +9,6 @@ from django.urls import NoReverseMatch, reverse
 from django.utils import translation
 from slugify import slugify
 
-from admin_interface.cache import get_cached_active_theme, set_cached_active_theme
 from admin_interface.metadata import __version__
 from admin_interface.models import Theme
 
